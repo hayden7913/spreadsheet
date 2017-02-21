@@ -1,25 +1,73 @@
-var path = require('path');
-var webpack = require('webpack');
-var express = require('express');
-var config = require('./webpack.config');
+const express = require('express')
+const bp = require('body-parser');
+const mongoose = require('mongoose');
+const app = express();
 
-var app = express();
-var compiler = webpack(config);
+mongoose.Promise = global.Promise;
 
-app.use(require('webpack-dev-middleware')(compiler, {
-  publicPath: config.output.publicPath
+const {PORT, DATABASE_URL} = require('./config');
+
+app.use(bp.urlencoded({
+  extended: true
 }));
+app.use(bp.json());
+/*app.use(express.static(__dirname + '/public'));
+*/
+const state = {
+  position: null
+}
 
-app.use(require('webpack-hot-middleware')(compiler));
-
-app.get('*', function(req, res) {
-  res.sendFile(path.join(__dirname, 'index.html'));
+app.get('/', (req, res) => {
+  res.send('test success');
 });
 
-app.listen(3000, function(err) {
-  if (err) {
-    return console.error(err);
-  }
-
-  console.log('Listening at http://localhost:3000/');
+app.get('/test', (req, res) => {
+  res.send({test: "success"})
 });
+
+app.post('/test', (req, res) => {
+  console.log(req.body);
+  state.position = req.body.position;
+  console.log(state);
+});
+
+let server;
+
+function runServer(databaseUrl=DATABASE_URL, port=PORT) {
+  return new Promise((resolve, reject) => {
+    mongoose.connect(databaseUrl, err => {
+      if (err) {
+        return reject(err);
+      }
+      server = app.listen(port, () => {
+        console.log(`Your app is listening on port ${port}`);
+        resolve();
+      })
+      .on('error', err => {
+        mongoose.disconnect();
+        reject(err);
+      });
+    });
+  });
+}
+
+
+function closeServer() {
+  return mongoose.disconnect().then(() => {
+     return new Promise((resolve, reject) => {
+       console.log('Closing server');
+       server.close(err => {
+           if (err) {
+               return reject(err);
+           }
+           resolve();
+       });
+     });
+  });
+}
+
+if (require.main === module) {
+  runServer().catch(err => console.error(err));
+};
+
+module.exports = {app, runServer, closeServer};

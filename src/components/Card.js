@@ -32,6 +32,21 @@ class Card extends Component {
   constructor (props){
     super(props)
   }
+  
+  componentDidMount() {
+    console.log(this.props.x);
+    fetch("http://localHost:8080/test",
+    {
+        method: "POST",
+        body: JSON.stringify({position: [this.props.x, this.props.y]}),
+        headers: new Headers({
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+      })
+    })
+    .then(function(res){ return res.json(); })
+    .then(function(data){ alert( JSON.stringify( data ) ) })
+  }
 
   render () {
     return this.props.connectDragSource(

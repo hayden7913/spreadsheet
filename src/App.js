@@ -10,31 +10,17 @@ const style = {
 
 class App extends Component {
   
-/*  componentDidMount() {
-      console.log('hello');
+  /*componentDidMount() {
+      console.log('smells');
       fetch(
         "http://localHost:8080/test",
         {method: 'get'})
       .then((res) => {
         return res.json();
       })
-      .then(data => {console.log(data); this.state = data})
+      .then(data => {console.log(data);})
     }*/
     
-    componentDidMount() {
-      console.log('hello');
-      fetch("http://localHost:8080/test",
-      {
-          method: "POST",
-          body: JSON.stringify({position: [1,1]}),
-          headers: new Headers({
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-        })
-      })
-      .then(function(res){ return res.json(); })
-      .then(function(data){ alert( JSON.stringify( data ) ) })
-    }
     
   render() {
     let columns = [];

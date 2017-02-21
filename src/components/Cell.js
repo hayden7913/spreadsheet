@@ -32,7 +32,9 @@ class Cell extends Component {
 
     let cell;
     if(this.props.hasCard === true)
-      cell =  <div style={style} x={this.props.x} y={this.props.y}><Card/></div>
+      cell =  <div style={style} x={this.props.x} y={this.props.y}>
+        <Card x={this.props.x} y={this.props.y} />
+    </div>
     else
       cell = <div style={style} x={this.props.x} y={this.props.y}></div>
 

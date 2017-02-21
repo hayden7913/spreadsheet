@@ -48,7 +48,7 @@ export default class App extends React.Component {
 
     return (
       <div style={{color: 'red'}}>
-        I like it hot
+        New
       </div>
     );
   }

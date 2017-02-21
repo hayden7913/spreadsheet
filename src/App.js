@@ -1,55 +1,55 @@
 import React, { Component } from 'react';
+import { DragDropContext } from 'react-dnd';
+import HTML5Backend from 'react-dnd-html5-backend';
+import Column from './components/Column.js';
+import Button from './components/Button';
 
-export default class App extends React.Component {
-  constructor(props) {
-    super(props);
+const style = {
+  'display': 'flex'
+}
 
-    this.state = {
-      data: null
-    };
-  }
-
-/*  componentDidMount() {
-    axios.get(`http://localHost:8080/projects`)
-      .then(res => {
-        let dataArray = res.data.projects.map(project => <li> {project.projectName} </li>);
-        this.setState({projects: dataArray})
-      });
-  }*/
-
-  componentDidMount() {
-    console.log('hello');
-    fetch(
-      "http://localHost:8080/test",
-      {
-        method: 'get'
-    })
-    .then((res) => {
-      return res.json();
-    })
-    .then(data => {console.log(data); this.state = data})
-  }
+class App extends Component {
   
-  /*componentDidMount() {
-    fetch("http://localHost:8080/test",
-    {
-        method: "POST",
-        body: JSON.stringify({position: [1,1]}),
-        headers: new Headers({
-        'Content-Type': 'application/json'
+/*  componentDidMount() {
+      console.log('hello');
+      fetch(
+        "http://localHost:8080/test",
+        {method: 'get'})
+      .then((res) => {
+        return res.json();
       })
-    })
-    .then(function(res){ return res.json(); })
-    .then(function(data){ alert( JSON.stringify( data ) ) })
-  }
-*/
+      .then(data => {console.log(data); this.state = data})
+    }*/
+    
+    componentDidMount() {
+      console.log('hello');
+      fetch("http://localHost:8080/test",
+      {
+          method: "POST",
+          body: JSON.stringify({position: [1,1]}),
+          headers: new Headers({
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        })
+      })
+      .then(function(res){ return res.json(); })
+      .then(function(data){ alert( JSON.stringify( data ) ) })
+    }
+    
   render() {
-    // console.log(this.state);
-
+    let columns = [];
+    for (let i = 0, j = 0; i < 4; i++, j+=2) {
+      columns.push(<div key={i}><Column x={i} /></div>);
+    }
     return (
-      <div style={{color: 'red'}}>
-        New
+    <div>
+      <div style={style}>
+        {columns}
       </div>
+      <Button />
+    </div>
     );
   }
 }
+
+export default DragDropContext(HTML5Backend)(App);

@@ -22,8 +22,8 @@ app.get('/test', (req, res) => {
 
 app.post('/test', (req, res) => {
   console.log(req.body);
-  state.position = req.body.position;
-  console.log(state);
+/*  state.position = req.body.position;
+  console.log(state);*/
 });
 
 
@@ -32,5 +32,5 @@ app.listen(8080, function(err) {
     return console.error(err);
   }
 
-  console.log('Listening at http://localhost:3000/');
+  console.log('Listening at http://localhost:8080/');
 });

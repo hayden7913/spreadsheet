@@ -9,15 +9,7 @@ export default class App extends React.Component {
     };
   }
 
-/*  componentDidMount() {
-    axios.get(`http://localHost:8080/projects`)
-      .then(res => {
-        let dataArray = res.data.projects.map(project => <li> {project.projectName} </li>);
-        this.setState({projects: dataArray})
-      });
-  }*/
-
-  componentDidMount() {
+  /*componentDidMount() {
     console.log('hello');
     fetch(
       "http://localHost:8080/test",
@@ -28,9 +20,9 @@ export default class App extends React.Component {
       return res.json();
     })
     .then(data => {console.log(data); this.state = data})
-  }
+  }*/
   
-  /*componentDidMount() {
+  componentDidMount() {
     fetch("http://localHost:8080/test",
     {
         method: "POST",
@@ -42,13 +34,12 @@ export default class App extends React.Component {
     .then(function(res){ return res.json(); })
     .then(function(data){ alert( JSON.stringify( data ) ) })
   }
-*/
+
   render() {
-    // console.log(this.state);
 
     return (
       <div style={{color: 'red'}}>
-        I like it hot
+        Hellow World
       </div>
     );
   }

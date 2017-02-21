@@ -1,10 +1,18 @@
-var path = require('path');
-var webpack = require('webpack');
-var express = require('express');
-var config = require('./webpack.config');
 
-var app = express();
-var compiler = webpack(config);
+const path = require('path');
+const webpack = require('webpack');
+const express = require('express');
+const config = require('./webpack.config');
+const bp = require('body-parser');
+const app = express();
+const compiler = webpack(config);
+
+app.use(bp.urlencoded({
+  extended: true
+}));
+app.use(bp.json());
+
+
 
 app.use(require('webpack-dev-middleware')(compiler, {
   publicPath: config.output.publicPath
@@ -22,8 +30,8 @@ app.get('/test', (req, res) => {
 
 app.post('/test', (req, res) => {
   console.log(req.body);
-  state.position = req.body.position;
-  console.log(state);
+  /*state.position = req.body.position;
+  console.log(state);*/
 });
 
 

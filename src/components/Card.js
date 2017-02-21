@@ -32,8 +32,8 @@ class Card extends Component {
   constructor (props){
     super(props)
   }
-  
-  componentDidMount() {
+
+  /*componentDidMount() {
     console.log(this.props.x);
     fetch("http://localHost:8080/test",
     {
@@ -46,7 +46,7 @@ class Card extends Component {
     })
     .then(function(res){ return res.json(); })
     .then(function(data){ alert( JSON.stringify( data ) ) })
-  }
+  }*/
 
   render () {
     return this.props.connectDragSource(

@@ -10,7 +10,7 @@ class Column extends Component {
     super(props);
 
   }
-
+  
   renderCell(i) {
     const [cardX, cardY] = this.props.state.pos;
     if (cardX === this.props.x && cardY === i) {
@@ -32,6 +32,7 @@ class Column extends Component {
     )
   }
 }
+
 const mapStateToProps = (state, props) => ({
   state: state
 });

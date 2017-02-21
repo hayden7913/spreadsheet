@@ -4,28 +4,27 @@ export const moveDown = pos => ({
     pos
 });
 
-export function itemsFetchData(url) {
-    return (dispatch) => {
-      
-      fetch(
-        url,
-        {method: 'get'})
-      .then((res) => {
-        return res.json();
-      })
-      .then(data => {console.log(data);})
-    }
-        
-        /*fetch(url)
-            .then((response) => {
-                if (!response.ok) {
-                    throw Error(response.statusText);
-                }
-                dispatch(itemsIsLoading(false));
-                return response;
-            })
-            .then((response) => response.json())
-            .then((items) => dispatch(itemsFetchDataSuccess(items)))
-            .catch(() => dispatch(itemsHasErrored(true)));
-    };*/
+export const FETCH_POSITION_SUCCESS = 'FETCH_POSITION_SUCCESS'; 
+export const fetchPositionSuccess = (pos) => ({
+  type: 'FETCH_POSITION_SUCCESS',
+  pos
+});
+
+export function fetchInitialPosition(url) {
+  return (dispatch) => {
+    
+    fetch(
+      url,
+      {method: 'get'})
+    .then((res) => {
+      return res.json();
+    })
+    .then(data => {
+      console.log(data);
+      dispatch(fetchPositionSuccess(data));
+    })
+    .catch(err => {
+      console.error(err)
+    })
+  }
 }

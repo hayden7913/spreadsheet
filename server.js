@@ -1,73 +1,46 @@
-const express = require('express')
+
+const path = require('path');
+const webpack = require('webpack');
+const express = require('express');
+const config = require('./webpack.config');
 const bp = require('body-parser');
-const mongoose = require('mongoose');
 const app = express();
-
-mongoose.Promise = global.Promise;
-
-const {PORT, DATABASE_URL} = require('./config');
+const compiler = webpack(config);
 
 app.use(bp.urlencoded({
   extended: true
 }));
 app.use(bp.json());
-/*app.use(express.static(__dirname + '/public'));
-*/
-const state = {
-  position: null
-}
 
-app.get('/', (req, res) => {
-  res.send('test success');
+app.use(require('webpack-dev-middleware')(compiler, {
+  publicPath: config.output.publicPath
+}));
+
+app.use(require('webpack-hot-middleware')(compiler));
+
+const state = {
+  position: [1,3]
+};
+
+app.get('/', function(req, res) {
+  res.sendFile(path.join(__dirname, 'index.html'));
 });
 
 app.get('/test', (req, res) => {
-  res.send({test: "success"})
+  console.log(state);
+  res.send(state);
 });
 
 app.post('/test', (req, res) => {
-  console.log(req.body);
   state.position = req.body.position;
   console.log(state);
 });
 
-let server;
 
-function runServer(databaseUrl=DATABASE_URL, port=PORT) {
-  return new Promise((resolve, reject) => {
-    mongoose.connect(databaseUrl, err => {
-      if (err) {
-        return reject(err);
-      }
-      server = app.listen(port, () => {
-        console.log(`Your app is listening on port ${port}`);
-        resolve();
-      })
-      .on('error', err => {
-        mongoose.disconnect();
-        reject(err);
-      });
-    });
-  });
-}
+app.listen(8080, function(err) {
+  if (err) {
+    return console.error(err);
+  }
 
-
-function closeServer() {
-  return mongoose.disconnect().then(() => {
-     return new Promise((resolve, reject) => {
-       console.log('Closing server');
-       server.close(err => {
-           if (err) {
-               return reject(err);
-           }
-           resolve();
-       });
-     });
-  });
-}
-
-if (require.main === module) {
-  runServer().catch(err => console.error(err));
-};
-
-module.exports = {app, runServer, closeServer};
+  console.log('Listening at http://localhost:8080/');
+});

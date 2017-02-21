@@ -3,24 +3,17 @@ import { DragDropContext } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
 import Column from './components/Column.js';
 import Button from './components/Button';
+import { connect } from 'react-redux';
+import * as actions from './actions/index';
 
 const style = {
   'display': 'flex'
 }
-
+      
 class App extends Component {
-  
-  /*componentDidMount() {
-      console.log('smells');
-      fetch(
-        "http://localHost:8080/test",
-        {method: 'get'})
-      .then((res) => {
-        return res.json();
-      })
-      .then(data => {console.log(data);})
-    }*/
-    
+  componentDidMount() {
+    this.props.getInitialPosition('http://localHost:8080/test');
+  }
     
   render() {
     let columns = [];
@@ -38,4 +31,15 @@ class App extends Component {
   }
 }
 
-export default DragDropContext(HTML5Backend)(App);
+/*const mapStateToProps = (state, props) => ({
+  state: state
+});*/
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        getInitialPosition: (url) => dispatch(actions.fetchInitialPosition(url))
+    };
+};
+
+App = DragDropContext(HTML5Backend)(App);  
+export default connect(null/*mapStateToProps*/, mapDispatchToProps)(App);

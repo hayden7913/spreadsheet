@@ -1,15 +1,15 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import { DragSource } from 'react-dnd';
 import { connect } from 'react-redux';
 
 const style = {
-  "height": "100%",
-  "width": "100%",
-  "backgroundColor": "green"
-}
+  height: '100%',
+  width: '100%',
+  backgroundColor: 'green',
+};
 
 const collect = (connect, monitor) => ({
-  connectDragSource: connect.dragSource()
+  connectDragSource: connect.dragSource(),
 });
 
 const cardSource = {
@@ -21,19 +21,19 @@ const cardSource = {
     const dropResult = monitor.getDropResult();
 
     if (dropResult) {
-      //console.log(dropResult);
+      // console.log(dropResult);
     }
   },
 
 
-}
+};
 
 class Card extends Component {
-  constructor (props){
-    super(props)
+  constructor(props) {
+    super(props);
   }
 
-  /*componentDidMount() {
+  /* componentDidMount() {
     console.log(this.props.x);
     fetch("http://localHost:8080/test",
     {
@@ -48,12 +48,12 @@ class Card extends Component {
     .then(function(data){ alert( JSON.stringify( data ) ) })
   }*/
 
-  render () {
+  render() {
     return this.props.connectDragSource(
-       <div style={style}></div>
-    )
+      <div style={style} />,
+    );
   }
 }
 
-Card = DragSource("Card", cardSource, collect)(Card);
+Card = DragSource('Card', cardSource, collect)(Card);
 export default connect()(Card);

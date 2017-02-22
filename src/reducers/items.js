@@ -1,4 +1,4 @@
-import * as actions from '../actions/index';
+/*import * as actions from '../actions/index';
 
 const initialState = { 
   pos: [0, 0],
@@ -33,4 +33,4 @@ export function cardHasRendered(state = initialState, action){
   }
   
   return state;
-}
+}*/
